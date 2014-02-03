@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider >
+            <security:user-service>
+				<security:user name="gonza" password="1234" authorities="ROLE_USER" />
+				<security:user name="admin" password="1234" authorities="ROLE_ADMIN" />
+	   		</security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+  	
+	<security:http auto-config="true" entry-point-ref="myAuth" use-expressions="true">
+    	<security:custom-filter before="FORM_LOGIN_FILTER" ref="myFilter" />
+ 	    <security:intercept-url pattern="/user*"  access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
+ 	    <security:intercept-url pattern="/admin*"  access="hasRole('ROLE_ADMIN')" />
+ 	    <security:intercept-url pattern="/json/private*"  access="hasRole('ROLE_USER')" />
+ 	    <security:intercept-url pattern="/json/public*"  access="" />
+ 	    <security:intercept-url pattern="/jajaxTests*"  access="" />
+ 	    
+	</security:http>
+
+
+	<!-- Configuring Custom success/failure handlers for Ajax/RPC and Form Authentication -->    
+    <bean id="myFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+    	<property name="filterProcessesUrl" value="/j_security_check" />
+    	<property name="authenticationManager" ref="authenticationManager" />
+    	<!-- custom handlers extending default behavior -->
+    	<property name="authenticationSuccessHandler">
+    		<bean class="com.gonza.security.config.RpcAuthenticationSuccessHandler" />
+    	</property>
+    	<property name="authenticationFailureHandler">
+    		<bean class="com.gonza.security.config.RpcAuthenticationFailureHandler" >
+    			<property name="defaultFailureUrl" value="/login?error=true" />
+    		</bean>
+    	</property>
+    </bean>
+    
+    
+    
+    <!-- Delegating Entry Point (rpc and default) -->
+	<bean id="myAuth" class="org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint">
+	     <constructor-arg>
+	         <map>
+	             <entry key="hasHeader('content-type','application/json; charset=UTF-8')" value-ref="rpcAuthenticationEntryPoint" />
+	         </map>
+	     </constructor-arg>
+	     <property name="defaultEntryPoint" ref="defaultEntryPoint"/>
+	 </bean>
+	<bean id="rpcAuthenticationEntryPoint" class="com.gonza.security.config.RpcAuthenticationEntryPoint"/>
+	<bean id="defaultEntryPoint" class="com.gonza.security.config.DefaultAuthenticationEntryPoint">
+		<property name="loginFormUrl" value="/login" />
+	</bean>
+
+
+
+</beans>
