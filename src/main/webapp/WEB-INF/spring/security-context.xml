@@ -32,7 +32,7 @@
     <bean id="myFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
     	<property name="filterProcessesUrl" value="/j_security_check" />
     	<property name="authenticationManager" ref="authenticationManager" />
-    	<!-- custom handlers extending default behavior -->
+    	<!-- custom handlers extending default behavior 
     	<property name="authenticationSuccessHandler">
     		<bean class="com.gonza.security.config.RpcAuthenticationSuccessHandler" />
     	</property>
@@ -41,6 +41,7 @@
     			<property name="defaultFailureUrl" value="/login?error=true" />
     		</bean>
     	</property>
+    	-->
     </bean>
     
     

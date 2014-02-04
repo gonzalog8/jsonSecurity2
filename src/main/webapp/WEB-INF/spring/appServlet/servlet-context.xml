@@ -26,23 +26,4 @@
 	
 	<context:component-scan base-package="com.gonza.security.controller" />
 	
-<!-- 	<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"> -->
-<!--         <property name="contentType" value="text/plain"/> -->
-<!--     </bean> -->
-
-<!--     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> -->
-<!--         <property name="messageConverters"> -->
-<!--             <util:list id="beanList"> -->
-<!--                 <ref bean="jsonMessageConverter"/> -->
-<!--             </util:list> -->
-<!--         </property> -->
-<!--     </bean> -->
-
-<!--     <bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/> -->
-    
-<!--     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> -->
-<!--         <property name="maxUploadSize" value="268435456"/>  -->
-<!--     </bean> -->
-	
-	
 </beans>

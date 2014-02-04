@@ -11,16 +11,26 @@
 			/WEB-INF/spring/security-context.xml
 		</param-value>
 	</context-param>
+	<!-- Spring Security Filter -->
 	<filter>
 	    <filter-name>springSecurityFilterChain</filter-name>
-	    <filter-class>
-	            org.springframework.web.filter.DelegatingFilterProxy
-        </filter-class>
+	    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
 	<filter-mapping>
 	  <filter-name>springSecurityFilterChain</filter-name>
 	  <url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<!-- CORS Filter -->
+	<filter>
+	    <filter-name>corsFilter</filter-name>
+	    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>corsFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

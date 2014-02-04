@@ -79,7 +79,7 @@
 			e.preventDefault();
 			
 			$.ajax({        url: 'json/publicUserDetails'
-				   ,contentType: 'application/json; charset=UTF-8'
+				 //  ,contentType: 'application/json; charset=UTF-8'
 				})
 				.success(function(data){
 					console.log("success");
